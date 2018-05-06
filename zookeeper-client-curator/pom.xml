@@ -11,5 +11,16 @@
 
     <artifactId>zookeeper-client-curator</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+            <version>${curator_framework_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+            <version>${curator_recipes_version}</version>
+        </dependency>
+    </dependencies>
 </project>

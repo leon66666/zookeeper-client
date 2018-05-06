@@ -12,17 +12,130 @@
         <module>zookeeper-client-curator</module>
     </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.curator</groupId>
-            <artifactId>curator-framework</artifactId>
-            <version>2.8.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.curator</groupId>
-            <artifactId>curator-recipes</artifactId>
-            <version>2.8.0</version>
-        </dependency>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <maven.test.skip>true</maven.test.skip>
 
-    </dependencies>
+        <!-- Myself libs -->
+        <wangzhongqiu_javautils_version>1.0</wangzhongqiu_javautils_version>
+        <curator_framework_version>2.8.0</curator_framework_version>
+        <curator_recipes_version>2.8.0</curator_recipes_version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-framework</artifactId>
+                <version>${curator_framework_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>${curator_recipes_version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <env>dev</env>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <env>test</env>
+            </properties>
+        </profile>
+        <profile>
+            <id>release</id>
+            <properties>
+                <env>release</env>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <filters>
+            <filter>../env/${env}.properties</filter>
+        </filters>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>mapper/*</exclude>
+                    <exclude>excel/*</exclude>
+                    <exclude>sql/*</exclude>
+                </excludes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>*mapper/*</include>
+                    <include>*excel/*</include>
+                    <include>*sql/*</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <!-- 配置tomcat 插件 -->
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <url>http://localhost:8080</url>
+                    <server>tomcat7</server>
+                    <path>/test</path>
+                    <update>true</update>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <!--maven 私服-->
+    <!--    <repositories>
+            <repository>
+                <id>hxb</id>
+                <name>Maven of hoomsun.com</name>
+                <url>http://nexus.hoomxb.com:7069/nexus/content/groups/public</url>
+                <releases>
+                    <enabled>true</enabled>
+                    <updatePolicy>always</updatePolicy>
+                </releases>
+                <snapshots>
+                    <enabled>true</enabled>
+                    <updatePolicy>always</updatePolicy>
+                    <checksumPolicy>warn</checksumPolicy>
+                </snapshots>
+                <layout>default</layout>
+            </repository>
+        </repositories>-->
 </project>
