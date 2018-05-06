@@ -12,21 +12,13 @@ import java.io.IOException;
 /**
  * Created by wangzhongqiu on 2018/5/6.
  * 基本操作：创建会话，创建节点，删除节点，获取节点存储内容，更新节点存储的内容
- * 
  */
 public class BaseOperation {
-    private static final String PATH = "/basictest";
-    private static final ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
-    private final static String zkConnString = "127.0.0.1:2181";
+    public static final String PATH = "/basictest";
 
     public static void main(String[] args) {
         //创建会话对象
-        CuratorFramework client = CuratorFrameworkFactory.builder()
-                .connectString(zkConnString).retryPolicy(retryPolicy)
-                .connectionTimeoutMs(1000)
-                .sessionTimeoutMs(1000)
-                .namespace("test")//每个对话创建一个隔离的命名空间
-                .build();
+        CuratorFramework client = CommonConfig.defaultClient;
         //开始会话
         client.start();
         try {
