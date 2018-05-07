@@ -22,5 +22,6 @@
             <artifactId>curator-recipes</artifactId>
             <version>${curator_recipes_version}</version>
         </dependency>
+
     </dependencies>
 </project>
