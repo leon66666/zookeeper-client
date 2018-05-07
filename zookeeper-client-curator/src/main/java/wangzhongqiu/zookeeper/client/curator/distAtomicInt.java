@@ -12,7 +12,7 @@ import org.apache.curator.retry.RetryNTimes;
  * 分布式计数器：指定一个节点作为计数器，
  * 多个机器在分布式锁的控制下，通过更新该节点的数据来实现分布式计数器功能
  */
-public class distAtomicInt {
+public class DistAtomicInt {
     static String distatomicint_path = "/distAtomicInt";
     static CuratorFramework client = CommonConfig.defaultClient;
 
